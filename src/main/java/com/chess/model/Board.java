@@ -6,6 +6,13 @@ import java.util.List;
 public class Board {
 	private List<List<Coordinate>> coordinates;
 
+	
+	
+	public Board() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+
 	public Board(List<List<Coordinate>> coordinates) {
 		super();
 		this.coordinates = coordinates;
@@ -19,6 +26,10 @@ public class Board {
 		this.coordinates = coordinates;
 	}
 
-	
+	@Override
+	public String toString() {
+		return "Board [coordinates=" + coordinates + "]";
+	}
+
 	
 }

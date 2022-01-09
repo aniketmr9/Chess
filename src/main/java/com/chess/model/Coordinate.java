@@ -7,6 +7,12 @@ public class Coordinate {
 	private String updatedColor;
 	private boolean isOccupied;
 	private Piece piece;	
+	
+	
+	public Coordinate() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
 	public Coordinate(int x, int y) {
 		super();
 		this.x = x;
@@ -45,10 +51,10 @@ public class Coordinate {
 	public void setUpdatedColor(String updatedColor) {
 		this.updatedColor = updatedColor;
 	}
-	public boolean isOccupied() {
+	public boolean getIsOccupied() {
 		return isOccupied;
 	}
-	public void setOccupied(boolean isOccupied) {
+	public void setIsOccupied(boolean isOccupied) {
 		this.isOccupied = isOccupied;
 	}
 	public Piece getPiece() {
@@ -56,6 +62,11 @@ public class Coordinate {
 	}
 	public void setPiece(Piece piece) {
 		this.piece = piece;
+	}
+	@Override
+	public String toString() {
+		return "Coordinate [x=" + x + ", y=" + y + ", originalColor=" + originalColor + ", updatedColor=" + updatedColor
+				+ ", isOccupied=" + isOccupied + ", piece=" + piece + "]";
 	}
 	
 	

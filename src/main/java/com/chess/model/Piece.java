@@ -1,6 +1,6 @@
 package com.chess.model;
 
-import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 public class Piece {
@@ -10,9 +10,13 @@ public class Piece {
 	private String name;
 	private String color;
 	private Set<Coordinate> possibleMoves;
-	private Set<Coordinate> history;
+	private List<List<Integer>> history;
+	public Piece() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
 	public Piece(String id, int x, int y, String name, String color, Set<Coordinate> possibleMoves,
-			Set<Coordinate> history) {
+			List<List<Integer>> history) {
 		super();
 		this.id = id;
 		this.x = x;
@@ -58,11 +62,18 @@ public class Piece {
 	public void setPossibleMoves(Set<Coordinate> possibleMoves) {
 		this.possibleMoves = possibleMoves;
 	}
-	public Set<Coordinate> getHistory() {
+	public List<List<Integer>> getHistory() {
 		return history;
 	}
-	public void setHistory(Set<Coordinate> history) {
+	public void setHistory(List<List<Integer>> history) {
 		this.history = history;
 	}
+	@Override
+	public String toString() {
+		return "Piece [id=" + id + ", x=" + x + ", y=" + y + ", name=" + name + ", color=" + color + ", possibleMoves="
+				+ possibleMoves + ", history=" + history + "]";
+	}
+	
+	
 	
 }

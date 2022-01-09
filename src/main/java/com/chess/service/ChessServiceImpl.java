@@ -28,7 +28,7 @@ public class ChessServiceImpl implements ChessService {
 		populatePieces(board, "1", ChessConstant.WHITE_STARTING_X,ChessConstant.WHITE);
 		populatePieces(board, "2", ChessConstant.BLACK_STARTING_X,ChessConstant.BLACK);
 		//testingBoard(board);
-		populatePossibleMoves(board);
+		//populatePossibleMoves(board);
 		// Player player = new Player(populatePieces(ranksWhite,
 		// ChessConstant.WHITE),populatePieces(ranksBlack, ChessConstant.BLACK));						
 		return board;
@@ -67,33 +67,34 @@ public class ChessServiceImpl implements ChessService {
 	private void testPiece(Board board, int x, int y, String pieceName, String color) {
 		// TODO Auto-generated method stub
 		board.getCoordinates().get(x).get(y).setPiece(new Piece("1", x, y, pieceName, color, new HashSet<Coordinate>(), null));
-		board.getCoordinates().get(x).get(y).setOccupied(true);
+		board.getCoordinates().get(x).get(y).setIsOccupied(true);
 	}
 	
-	private void populatePossibleMoves(Board board) {
+	@Override
+	public Piece populatePossibleMoves(Board board, Piece piece) {	
 		for (List<Coordinate> coordinates : board.getCoordinates()) {
 			for(Coordinate coordinate: coordinates) {				
-				if(coordinate != null && coordinate.getPiece() !=null && coordinate.getPiece().getName() != null) {
-					switch (coordinate.getPiece().getName()) {					
+				if(coordinate.getX() == piece.getX() && coordinate.getY() == piece.getY() && piece.getName() != null) {
+					switch (piece.getName()) {					
 					case "PAWN":
-						moves.populatePawnPossibleMoves(board.getCoordinates(), coordinate.getPiece());
+						moves.populatePawnPossibleMoves(board.getCoordinates(), piece, Rules.getPawnMovesCoordinate(piece.getColor()));						
 						break;
 					case "ROOK":
-						moves.populatePossibleMoves(board.getCoordinates(), coordinate.getPiece(), Rules.getVerticalHorizontalMovesCoordinate());
+						moves.populatePossibleMoves(board.getCoordinates(), piece, Rules.getVerticalHorizontalMovesCoordinate());
 						break;
 					case "BISHOP":
-						moves.populatePossibleMoves(board.getCoordinates(), coordinate.getPiece(), Rules.getDiagonalMovesCoordinate());
+						moves.populatePossibleMoves(board.getCoordinates(), piece, Rules.getDiagonalMovesCoordinate());
 						break;					
 					case "KNIGHT":
-						moves.populateKnigtPossibleMoves(board.getCoordinates(), coordinate.getPiece(), Rules.getKnightMovesCoordinate());
+						moves.populateKnigtPossibleMoves(board.getCoordinates(), piece, Rules.getKnightMovesCoordinate());
 						break;
 					case "QUEEN":
-						moves.populatePossibleMoves(board.getCoordinates(), coordinate.getPiece(), Rules.getVerticalHorizontalMovesCoordinate());
-						moves.populatePossibleMoves(board.getCoordinates(), coordinate.getPiece(), Rules.getDiagonalMovesCoordinate());
+						moves.populatePossibleMoves(board.getCoordinates(), piece, Rules.getVerticalHorizontalMovesCoordinate());
+						moves.populatePossibleMoves(board.getCoordinates(), piece, Rules.getDiagonalMovesCoordinate());
 						break;
 					case "KING":
-						moves.populatePossibleMoves(board.getCoordinates(), coordinate.getPiece(), Rules.getVerticalHorizontalMovesCoordinate());
-						moves.populatePossibleMoves(board.getCoordinates(), coordinate.getPiece(), Rules.getDiagonalMovesCoordinate());
+						moves.populatePossibleMoves(board.getCoordinates(), piece, Rules.getVerticalHorizontalMovesCoordinate());
+						moves.populatePossibleMoves(board.getCoordinates(), piece, Rules.getDiagonalMovesCoordinate());
 						break;
 					default:
 						break;
@@ -101,6 +102,8 @@ public class ChessServiceImpl implements ChessService {
 				}
 			}
 		}
+		System.out.println(piece.toString());
+		return piece;
 	}
 
 	private List<List<Coordinate>> loadEmptyChessBoard() {
@@ -113,7 +116,7 @@ public class ChessServiceImpl implements ChessService {
 			isBlack = colorSwitch;
 			for (int y : ChessConstant.Y) {
 				color = isBlack ? ChessConstant.BLACK : ChessConstant.WHITE;
-				coordinate.add(new Coordinate(x, y, color, color, false, null));
+				coordinate.add(new Coordinate(x, y, color, color, false, new Piece("0", x, y, null, null, null, new ArrayList<List<Integer>>())));
 				isBlack = !isBlack;
 			}
 			colorSwitch = !colorSwitch;
@@ -131,12 +134,12 @@ public class ChessServiceImpl implements ChessService {
 			for (List<Coordinate> coordinates : board.getCoordinates()) {
 				for(Coordinate coordinate: coordinates) {
 					if (coordinate.getY() == x && coordinate.getX() == startingX[color.equals(ChessConstant.WHITE) ? 0 : 1]) {
-						coordinate.setPiece(new Piece(id, coordinate.getX(), coordinate.getY(), pieceName, color, new HashSet<Coordinate>(), null));						
-						coordinate.setOccupied(true);
+						coordinate.setPiece(new Piece(id, coordinate.getX(), coordinate.getY(), pieceName, color, new HashSet<Coordinate>(), new ArrayList<List<Integer>>()));						
+						coordinate.setIsOccupied(true);
 					}
 					if (coordinate.getY() == x && coordinate.getX() == startingX[color.equals(ChessConstant.WHITE) ? 1 : 0]) {						
-						coordinate.setPiece(new Piece(id, coordinate.getX(), coordinate.getY(), pawnPiece, color, new HashSet<Coordinate>(), null));
-						coordinate.setOccupied(true);		
+						coordinate.setPiece(new Piece(id, coordinate.getX(), coordinate.getY(), pawnPiece, color, new HashSet<Coordinate>(), new ArrayList<List<Integer>>()));
+						coordinate.setIsOccupied(true);		
 					}
 				}						
 			}			
