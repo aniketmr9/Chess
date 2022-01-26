@@ -19,6 +19,11 @@ public class ChessController {
 	@Autowired
 	private ChessService chessService;
 	
+	@GetMapping(value = "/ping")
+	public String ping(){
+		return "UP";
+	}
+	
 	@GetMapping(value = "/populate")
 	public Board populateBoard(){
 		return chessService.populateBoard();
